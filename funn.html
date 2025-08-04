@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phone Verification Flow</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: center;
+    }
+
+    input[type="tel"],
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #message, #codeSection, #videoSection, #error {
+      margin-top: 20px;
+    }
+
+    #error {
+      color: red;
+    }
+
+    iframe {
+      margin-top: 15px;
+    }
+
+    a {
+      display: block;
+      margin-top: 15px;
+      color: #007BFF;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Phone Verification</h2>
+    
+    <div id="phoneSection">
+      <input type="tel" id="phoneInput" placeholder="Enter your phone number">
+      <button onclick="sendCode()">Send Code</button>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="codeSection" style="display: none;">
+      <input type="text" id="codeInput" placeholder="Enter the code">
+      <button onclick="verifyCode()">Verify Code</button>
+    </div>
+
+    <div id="error"></div>
+
+    <div id="videoSection" style="display: none;">
+      <h3>Access Granted 🎉</h3>
+      <iframe width="300" height="170"
+              src="https://youtu.be/GBIIQ0kP15E?si=TrL8jFfBU-XiZ_MO"
+              title="YouTube video" frameborder="0" allowfullscreen>
+      </iframe>
+      <a href="https://youtu.be/GBIIQ0kP15E?si=TrL8jFfBU-XiZ_MO" target="_blank">THE GIFT </a>
+    </div>
+  </div>
+
+  <script>
+    let phoneNumber = '';
+    const correctCode = '4505';
+
+    function sendCode() {
+      const phoneInput = document.getElementById('phoneInput').value.trim();
+      const messageDiv = document.getElementById('message');
+      const codeSection = document.getElementById('codeSection');
+      const errorDiv = document.getElementById('error');
+      const videoSection = document.getElementById('videoSection');
+
+      errorDiv.textContent = '';
+      videoSection.style.display = 'none';
+
+      if (phoneInput === '' || phoneInput.length < 2) {
+        errorDiv.textContent = 'Please enter a valid phone number.';
+        return;
+      }
+
+      phoneNumber = phoneInput;
+      const masked = '*'.repeat(phoneInput.length - 2) + phoneInput.slice(-2);
+
+      messageDiv.textContent = `We have sent a code (4505) to this number: ${masked}`;
+      codeSection.style.display = 'block';
+    }
+
+    function verifyCode() {
+      const codeInput = document.getElementById('codeInput').value.trim();
+      const errorDiv = document.getElementById('error');
+      const videoSection = document.getElementById('videoSection');
+
+      if (codeInput === correctCode) {
+        errorDiv.textContent = '';
+        videoSection.style.display = 'block';
+      } else {
+        videoSection.style.display = 'none';
+        errorDiv.textContent = 'Incorrect code. Please try again.';
+      }
+    }
+  </script>
+
+</body>
+</html>
